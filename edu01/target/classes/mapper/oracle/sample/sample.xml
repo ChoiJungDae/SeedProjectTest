@@ -193,7 +193,7 @@
 					, a.USER_DEPARTMENT
 					, b.CORP_NAME
 					, b.CORP_LEVEL
-					, NVL(a.PROFILE_NAME, ' ')
+					, NVL(a.PROFILE_NAME, ' ') as PROFILE_NAME
 					, NVL(dn.CODE_NAME,' ') as DEPARTMENT_NAME
 					, NVL(ur.CODE_NAME,' ') as USER_RANKNAME
 				FROM TTT_PEOPLE_HDR a 
