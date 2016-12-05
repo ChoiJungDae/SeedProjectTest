@@ -134,8 +134,7 @@ public class SampleController extends SeedController  {
 	     
 	    return mv;
 		 
-	}
-	
+	}	
 
 	@ResponseBody
 	@RequestMapping(value="/sample/autoComplete.do", method = RequestMethod.POST)
@@ -152,6 +151,14 @@ public class SampleController extends SeedController  {
 		int count = sampleService.getDeleteUser(arr);	
 		logger.debug("변경된 del_YN : " + count + "건이 변경 되었습니다.");
 		return  "redirect:/sample/openSampleList.do";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/sample/userRank.do", method = RequestMethod.POST)
+	public List<SampleVO> userRank(@RequestParam Map<String,Object> requestParam) throws Exception {
+		logger.debug("userRank: " + requestParam);
+		List<SampleVO> list = sampleService.getUserRank(requestParam);
+		return list;
 	}
 	
 /*	@RequestMapping(value="/sample/sampleWrite.do")

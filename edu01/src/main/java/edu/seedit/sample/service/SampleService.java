@@ -27,4 +27,6 @@ public interface SampleService {
 
 	List<Map<String, Object>> selectBoardList(Map<String, Object> map);
 
+	List<SampleVO> getUserRank(Map<String,Object> requestParam);
+
 }

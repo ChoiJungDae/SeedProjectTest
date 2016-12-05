@@ -13,13 +13,6 @@
 	$(document).ready(function() {
 		$("#load").on("click", function(e) {
 			fn_selectBoardList(1);
-			/* 				$.ajax({
-			 type : "POST",
-			 url : "openSampleList.do",
-			 success : function(row) { //성공시 이 함수를 호출한다.
-			 blackList(row);
-			 }
-			 }); */
 		});
 		$("#openWrite").on("click", function(e) {
 			e.preventDefault();
@@ -97,11 +90,37 @@
 			}
 		});
 
-		$("#my-button").bind('click', function(e) {
+/* 		$("#my-button").bind('click', function(e) {
 			// Prevents the default action to be  triggered. 
 			e.preventDefault();
 			// Triggering bPopup when click event is fired
 			msg("안녕하세요")
+		}); */
+		
+ 		$("#userRank").on("change", function(){
+			$.ajax({
+				type	:"post",
+				url		:"userRank.do",
+				data	:"value="+$(this).val(),
+				success : function(data) {
+					var str;
+					$.each(data, function(key,row){                                                
+					str+='<tr>                                                    '
+					+'	<td><input type="checkbox" name="box" value="'+ row.userId  +'" /></td>'
+					+'	<td>'+ row.userId		 +'</td>                                              '
+					+'	<td>'+ row.userName      +'</td>                                              '
+					+'	<td>'+ row.userPhone     +'</td>                                              '
+					+'	<td>'+ row.userEmail     +'</td>                                              '
+					+'	<td>'+ row.corpName      +'</td>                                              '
+					+'	<td>'+ row.departmentName+'</td>                                              '
+					+'	<td>'+ row.userRankname  +'</td>                                              '
+					+'	<td>'+ row.profileName   +'</td>                                              '
+					+'</tr>                                                                          '
+					});
+					
+					$("#innerBody").html(str);		
+				}				
+			});
 		});
 	});
 
@@ -227,7 +246,6 @@
 							class="btn_common_red_2" value="검색"> <input type="button"
 							id="openWrite" class="btn_common_red_2" value="글쓰기"> <input
 							type="button" id="load" class="btn_common_red_2" value="블랙리스트">
-							<Button id="my-button">BPopupTest</Button></th>
 					</tr>
 				</tbody>
 			</table>
@@ -282,18 +300,23 @@
 						<th scope="col">이메일주소</th>
 						<th scope="col">업체명</th>
 						<th scope="col">부서명</th>
-						<th scope="col">사용자등급명</th>
+						<th scope="col">
+							<select id="userRank">
+								<option selected value="all">사용자등급명</option>
+								<option value="1">대리</option>
+								<option value="2">차장</option>
+							</select>						
+						</th>
 						<th scope="col">프로필 사진파일 이름</th>
 						<th scope="col"></th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="innerBody">
 					<c:choose>
 						<c:when test="${fn:length(list) > 0}">
 							<c:forEach items="${list }" var="row" varStatus="st">
 								<tr id="color${st.index }">
-									<td><input type="checkbox" name="box"
-										value="${row.userId		   }" /></td>
+									<td><input type="checkbox" name="box" value="${row.userId		   }" /></td>
 									<td>${row.userId		   }</td>
 									<td>${row.userName      }</td>
 									<td>${row.userPhone     }</td>

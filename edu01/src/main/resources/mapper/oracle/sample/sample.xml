@@ -182,4 +182,38 @@
 		<include refid="pagingPost" />
 	</select>
 
+	<select id="userRank" parameterType="map" resultMap="sampleList">
+	  <![CDATA[
+				SELECT a.USER_ID
+					, a.USER_NAME
+					, a.USER_PHONE
+					, NVL(a.USER_EMAIL,' ') as USER_EMAIL 
+					, a.CORP_CODE
+					, a.USER_LEVEL
+					, a.USER_DEPARTMENT
+					, b.CORP_NAME
+					, b.CORP_LEVEL
+					, NVL(a.PROFILE_NAME, ' ')
+					, NVL(dn.CODE_NAME,' ') as DEPARTMENT_NAME
+					, NVL(ur.CODE_NAME,' ') as USER_RANKNAME
+				FROM TTT_PEOPLE_HDR a 
+				INNER JOIN TTT_VENDOR_HDR b 
+					ON  a.CORP_CODE = b.CORP_CODE
+				LEFT JOIN TTT_COM_CD dn
+					ON dn.CODE = a.USER_DEPARTMENT
+					AND dn.CODE_GBN = 'DEPARTMENT'
+				LEFT JOIN TTT_COM_CD ur
+					ON ur.CODE = a.USER_RANKCODE
+					AND ur.CODE_GBN = 'USERRANK'
+					AND a.USER_LEVEL <> '0'
+        ]]>
+        <where>
+        <choose>
+        	<when test="value == 'all'">1=1</when>
+    	    <otherwise>a.USER_RANKCODE = '${value}' </otherwise> 
+        </choose>
+        </where>
+		AND DEL_YN = 'N'
+		ORDER BY USER_NAME	
+	</select>
 </mapper>

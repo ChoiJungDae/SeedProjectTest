@@ -137,6 +137,11 @@ public class SampleServiceImpl implements SampleService {
 		return dao.selectBoardList(map);
 	}
 
+	@Override
+	public List<SampleVO> getUserRank(Map<String,Object> requestParam) {
+		return	dao.userRank(requestParam);
+	}
+
 
 
 

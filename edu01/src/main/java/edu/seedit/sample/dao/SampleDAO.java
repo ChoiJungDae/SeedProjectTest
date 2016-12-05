@@ -86,4 +86,9 @@ public class SampleDAO extends AbstractDAO {
 		return (List<Map<String, Object>>) selectPagingList("sample.selectBoardList", map);
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<SampleVO> userRank(Map<String,Object> requestParam) {
+		return (List<SampleVO>)list("userRank",requestParam);
+	}
+
 }
