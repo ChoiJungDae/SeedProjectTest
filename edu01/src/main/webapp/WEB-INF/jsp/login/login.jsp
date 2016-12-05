@@ -5,7 +5,7 @@
   <head>   
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <%@ include file="/WEB-INF/include/include-header.jspf" %>
-    <title>free login form -bootstrap</title>
+    <title>고객관리 로그인</title>
     <script type="text/javascript">
     $(function(){    	
     	$("#user_id").on("focus",function(){
@@ -21,7 +21,6 @@
     	
     	$("#LoginBtn").on("click",function(e){
     		e.preventDefault();
-    		$("#loginForm").submit();
     		var userName = $("#user_id").val();
     		var userPass = $("#password").val();
     		$.ajax({
