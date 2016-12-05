@@ -132,7 +132,7 @@ public class SampleServiceImpl implements SampleService {
 	}
 
 	@Override
-	public List<Map<String, Object>> selectBoardList(Map<String, Object> map) {
+	public List<Map<String, Object>> getSelectBoardList(Map<String, Object> map) {
 		
 		return dao.selectBoardList(map);
 	}

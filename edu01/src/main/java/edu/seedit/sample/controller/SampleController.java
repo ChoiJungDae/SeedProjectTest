@@ -122,7 +122,7 @@ public class SampleController extends SeedController  {
 	public  ModelAndView openSampleListJSON(@RequestParam Map<String, Object> requestParam) throws Exception {		
 	    ModelAndView mv = new ModelAndView("jsonView");
 	    System.out.println("Controller : " + requestParam.get("PAGE_INDEX") + ", " + requestParam.get("PAGE_ROW"));
-	    List<Map<String,Object>> list = sampleService.selectBoardList(requestParam);
+	    List<Map<String,Object>> list = sampleService.getSelectBoardList(requestParam);
 	    System.out.println(list);
 	    mv.addObject("list", list);
 	    if(list.size() > 0){

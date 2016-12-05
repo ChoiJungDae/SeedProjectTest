@@ -83,7 +83,7 @@ public class SampleDAO extends AbstractDAO {
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map) {
 		System.out.println("넘어온 값 : "+ map);
-		return (List<Map<String, Object>>) selectPagingList("sample.selectBoardList", map);
+		return (List<Map<String, Object>>) selectPagingList("selectBoardList", map);
 	}
 
 	@SuppressWarnings("unchecked")

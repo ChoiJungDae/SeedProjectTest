@@ -25,7 +25,7 @@ public interface SampleService {
 
 	Map<String,Object> getUserLoginCheck(String userId)  throws Exception;
 
-	List<Map<String, Object>> selectBoardList(Map<String, Object> map);
+	List<Map<String, Object>> getSelectBoardList(Map<String, Object> map);
 
 	List<SampleVO> getUserRank(Map<String,Object> requestParam);
 
