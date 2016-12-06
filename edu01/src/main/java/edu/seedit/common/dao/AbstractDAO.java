@@ -95,7 +95,7 @@ public class AbstractDAO {
 		String strPageIndex = (String) map.get("PAGE_INDEX");
 		String strPageRow = (String) map.get("PAGE_ROW");
 		int nPageIndex = 0;
-		int nPageRow = 10;
+		int nPageRow = 20;
 
 		if (StringUtils.isEmpty(strPageIndex) == false) {
 			nPageIndex = Integer.parseInt(strPageIndex) - 1;

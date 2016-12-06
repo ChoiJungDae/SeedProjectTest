@@ -146,7 +146,7 @@
 		comAjax.setUrl("<c:url value='/sample/openSampleList.do' />");
 		comAjax.setCallback("fn_selectBoardListCallback");
 		comAjax.addParam("PAGE_INDEX", pageNo);
-		comAjax.addParam("PAGE_ROW", 10);
+		comAjax.addParam("PAGE_ROW", 20);
 		comAjax.ajax();
 	}
 
@@ -245,7 +245,7 @@
 						<th style="width: 300px;"><input type="submit"
 							class="btn_common_red_2" value="검색"> <input type="button"
 							id="openWrite" class="btn_common_red_2" value="글쓰기"> <input
-							type="button" id="lo ad" class="btn_common_red_2" value="블랙리스트">
+							type="button" id="load" class="btn_common_red_2" value="블랙리스트">
 					</tr>
 				</tbody>
 			</table>

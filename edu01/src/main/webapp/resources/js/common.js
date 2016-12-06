@@ -174,20 +174,19 @@ function gfn_renderPaging(params){
      
     var recordCount = params.recordCount; //페이지당 레코드 수
     if(gfn_isNull(recordCount) == true){
-        recordCount = 10;
+        recordCount = 20;
     }
     var totalIndexCount = Math.ceil(totalCount / recordCount); // 전체 인덱스 수
     gfv_eventName = params.eventName;
-     
     $("#"+divId).empty();
     var preStr = "";
     var postStr = "";
     var str = "";
     var first = (parseInt((currentIndex-1) / 10) * 10) + 1;
-    var last = (parseInt(totalIndexCount/10) == parseInt((currentIndex-1)/10)) ? totalIndexCount%10 : 10;
+    var last = (parseInt(totalIndexCount/10) == parseInt((currentIndex)/10)) ? totalIndexCount%10 : 10;
     var prev = (parseInt((currentIndex-1)/10)*10) - 9 > 0 ? (parseInt((currentIndex-1)/10)*10) - 9 : 1; 
     var next = (parseInt((currentIndex-1)/10)+1) * 10 + 1 < totalIndexCount ? (parseInt((currentIndex-1)/10)+1) * 10 + 1 : totalIndexCount;
-        
+    
     if(totalIndexCount > 10){ //전체 인덱스가 10이 넘을 경우, 맨앞, 앞 태그 작성
         preStr += "<a href='#this' class='btn_common_red_2' onclick='_movePage(1)'>[<<]</a>" +
                 "<a href='#this' class='btn_common_red_2' onclick='_movePage("+prev+")'>[<]</a>";
@@ -204,8 +203,7 @@ function gfn_renderPaging(params){
         postStr += "<a href='#this' class='btn_common_red_2' onclick='_movePage("+totalIndexCount+")'>[>>]</a>";
     }
      
-    for(var i=first; i<(first+last); i++){
-    	
+    for(var i=first; i<(first+last); i++){    	
         if(i != currentIndex){
             str += "<a href='#this' class='btn_common_red_2' onclick='_movePage("+i+")'>"+i+"</a>";
         }
@@ -221,7 +219,7 @@ function _movePage(value){
     $("#"+gfv_pageIndex).val(value);
     $("#"+gfv_pageIndex).attr("class","active");
     if(typeof(gfv_eventName) == "function"){
-        gfv_eventName(value);
+    	gfv_eventName(value);
     }
     else {
         eval(gfv_eventName + "(value);");
