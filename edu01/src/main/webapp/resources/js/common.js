@@ -5,7 +5,7 @@ function gfn_isNull(str) {
 		return true;
 	if (new String(str).valueOf() == "undefined")
 		return true;
-	var chkStr = new String(str);
+	var chkStr = new String(str); 
 	if (chkStr.valueOf() == "undefined")
 		return true;
 	if (chkStr == null)
