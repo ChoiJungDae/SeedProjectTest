@@ -49,7 +49,7 @@
     <div class="container">
       <div class="row" style="text-align: center">
         <div class="page-header">
-          <h2>Welcome!!!!!!!!!</h2>
+          <h2>Welcome!!</h2>
         </div>
         <div class="col-md-4 col-md-offset-4" >
           <div class="login-box well" align="center">
