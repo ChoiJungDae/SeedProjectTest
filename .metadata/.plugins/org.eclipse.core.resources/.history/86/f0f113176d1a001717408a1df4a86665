@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sample">
+
+	<resultMap type="SampleVO" id="sampleList">
+		<result property="userId" column="USER_ID" />
+		<result property="userName" column="USER_NAME" />
+		<result property="userPhone" column="USER_PHONE" />
+		<result property="userEmail" column="USER_EMAIL" />
+		<result property="corpCode" column="CORP_CODE" />
+		<result property="userLevel" column="USER_LEVEL" />
+		<result property="userDepartment" column="USER_DEPARTMENT" />
+		<result property="corpName" column="CORP_NAME" />
+		<result property="corpLevel" column="CORP_LEVEL" />
+		<result property="profileName" column="PROFILE_NAME" />
+		<result property="departmentName" column="DEPARTMENT_NAME" />
+		<result property="userRankname" column="USER_RANKNAME" />
+	</resultMap>
+
+
+	<select id="selectSampleList" parameterType="SampleVO"
+		resultMap="sampleList">
+        <![CDATA[
+				SELECT a.USER_ID
+					, a.USER_NAME
+					, a.USER_PHONE
+					, a.USER_EMAIL
+					, a.CORP_CODE
+					, a.USER_LEVEL
+					, a.USER_DEPARTMENT
+					, b.CORP_NAME
+					, b.CORP_LEVEL
+					, a.PROFILE_NAME
+					, dn.CODE_NAME as DEPARTMENT_NAME
+					, ur.CODE_NAME as USER_RANKNAME
+				FROM TTT_PEOPLE_HDR a 
+				INNER JOIN TTT_VENDOR_HDR b 
+					ON  a.CORP_CODE = b.CORP_CODE
+				LEFT JOIN TTT_COM_CD dn
+					ON dn.CODE = a.USER_DEPARTMENT
+					AND dn.CODE_GBN = 'DEPARTMENT'
+				LEFT JOIN TTT_COM_CD ur
+					ON ur.CODE = a.USER_RANKCODE
+					AND ur.CODE_GBN = 'USERRANK'
+					AND a.USER_LEVEL <> '0'
+        ]]>
+		<where>
+			<if test="userId         !=null and userId         !=''"> AND a.USER_ID = #{userId}         </if>
+			<if test="userName       !=null and userName       !=''"> AND a.USER_NAME like '%${userName}%'       </if>
+			<if test="userPhone      !=null and userPhone      !=''"> AND a.USER_PHONE like '%${userPhone}%'      </if>
+			<if test="userEmail      !=null and userEmail      !=''"> AND a.USER_EMAIL like '%${userEmail}%'      </if>
+			<if test="corpCode       !=null and corpCode       !=''"> AND a.CORP_CODE = #{corpCode}       </if>
+			<if test="userLevel      !=null and userLevel      !=''"> AND a.USER_LEVEL = #{userLevel}      </if>
+			<if test="userDepartment !=null and userDepartment !=''"> AND a.USER_DEPARTMENT like '%${userDepartment}%' </if>
+			<if test="corpName       !=null and corpName       !=''"> AND b.CORP_NAME like '%${corpName}%'       </if>
+			<if test="corpLevel      !=null and corpLevel      !=''"> AND b.CORP_LEVEL = #{corpLevel}      </if>
+			<if test="profileName    !=null and profileName    !=''"> AND a.PROFILE_NAME like '%${profileName}%'    </if>
+			<if test="departmentName !=null and departmentName !=''"> AND DEPARTMENT_NAME like '%${departmentName}%' </if>
+			<if test="userRankname   !=null and userRankname   !=''"> AND USER_RANKNAME like '%${userRankname}%'   </if>			
+		</where>
+		AND DEL_YN = 'N'
+		ORDER BY USER_NAME
+		<!-- and USER_ID = #{userId} and user_pw = #{userPw} AND a.user_level != 
+			'0' -->
+	</select>
+
+	<select id="selectSampleOne" parameterType="String" resultType="SampleVO">
+        <![CDATA[
+				SELECT a.USER_ID as userId
+					, a.USER_NAME as userName
+					, a.USER_PHONE as userPhone
+					, a.USER_EMAIL as userEmail
+					, a.CORP_CODE as corpCode
+					, a.USER_LEVEL as userLevel
+					, a.USER_DEPARTMENT as userDepartment
+					, b.CORP_NAME as corpName
+					, b.CORP_LEVEL as corpLevel
+					, a.PROFILE_NAME as profileName
+					, dn.CODE_NAME as departmentName
+					, ur.CODE_NAME as userRankname
+				FROM TTT_PEOPLE_HDR a 
+				INNER JOIN TTT_VENDOR_HDR b 
+					ON  a.CORP_CODE = b.CORP_CODE
+				LEFT JOIN TTT_COM_CD dn
+					ON dn.CODE = a.USER_DEPARTMENT
+					AND dn.CODE_GBN = 'DEPARTMENT'
+				LEFT JOIN TTT_COM_CD ur
+					ON ur.CODE = a.USER_RANKCODE
+					AND ur.CODE_GBN = 'USERRANK'
+					AND a.USER_LEVEL <> '0' 
+        ]]>
+		where a.USER_ID = #{userId}
+
+		ORDER BY USER_NAME
+		<!-- and USER_ID = #{userId} and user_pw = #{userPw} AND a.user_level != 
+			'0' -->
+	</select>
+<!-- 	<resultMap type="BlackVO" id="blacklist">
+		<result property="listId" column="list_id" />
+		<result property="sender" column="sender" />
+		<result property="recName" column="rec_name" />
+		<result property="received" column="received" />
+		<result property="instDate" column="inst_date" />
+
+	</resultMap> -->
+
+<!-- 	<select id="BlackList" resultMap="blacklist">
+		select *
+		from blacklist_list
+	</select> -->
+
+	<select id="selectIdList" parameterType="map" resultMap="sampleList">
+		select
+		${key}
+		from TTT_PEOPLE_HDR
+		where ${key} like '%'||#{value}||'%' and DEL_YN = 'N'
+	</select>
+
+	<update id="deleteList" parameterType="map">
+		UPDATE TTT_PEOPLE_HDR SET DEL_YN = 'Y'
+		WHERE user_id in
+		<foreach collection="list" item="item" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+	</update>
+
+
+	<select id="UserIdCheck" parameterType="String" resultType="Integer">
+		select
+		count(*)
+		from TTT_PEOPLE_HDR
+		where user_id = #{str}
+	</select>
+
+	<resultMap type="hashMap" id="testRst">
+		<result javaType="java.lang.String" column="USER_ID" property="userId"></result>
+		<result javaType="java.lang.String" column="USER_PW" property="userPw"></result>
+	</resultMap>
+
+	<select id="userLoginCheck" parameterType="String" resultMap="testRst">
+		select user_id, user_pw
+		from TTT_PEOPLE_HDR
+		WHERE user_id = #{str}
+	</select>
+
+	<sql id="pagingPre">
+    <![CDATA[
+        SELECT
+            AAA.*
+        FROM(
+            SELECT
+                COUNT(*) OVER() AS TOTAL_COUNT,
+                AA.*
+            FROM(  
+    ]]>
+	</sql>
+
+	<sql id="pagingPost">
+    <![CDATA[
+            ) AA
+        ) AAA
+        WHERE
+            AAA.RNUM BETWEEN #{START} AND #{END}
+    ]]>
+	</sql>
+
+	<select id="selectBoardList" parameterType="hashmap" resultType="hashmap">
+		<include refid="pagingPre" /> 
+    <![CDATA[
+        SELECT
+			ROW_NUMBER() OVER (ORDER BY LIST_ID DESC) RNUM,
+			LIST_ID as listId,
+			SENDER as sender,
+			REC_NAME as recName,
+			RECEIVED as received,
+	      	INST_DATE as InstDate
+        FROM
+            BLACKLIST_LIST
+    ]]>
+		<include refid="pagingPost" />
+	</select>
+
+	<select id="userRank" parameterType="map" resultMap="sampleList">
+	  <![CDATA[
+				SELECT a.USER_ID
+					, a.USER_NAME
+					, a.USER_PHONE
+					, NVL(a.USER_EMAIL,' ') as USER_EMAIL 
+					, a.CORP_CODE
+					, a.USER_LEVEL
+					, a.USER_DEPARTMENT
+					, b.CORP_NAME
+					, b.CORP_LEVEL
+					, NVL(a.PROFILE_NAME, ' ') as PROFILE_NAME
+					, NVL(dn.CODE_NAME,' ') as DEPARTMENT_NAME
+					, NVL(ur.CODE_NAME,' ') as USER_RANKNAME
+				FROM TTT_PEOPLE_HDR a 
+				INNER JOIN TTT_VENDOR_HDR b 
+					ON  a.CORP_CODE = b.CORP_CODE
+				LEFT JOIN TTT_COM_CD dn
+					ON dn.CODE = a.USER_DEPARTMENT
+					AND dn.CODE_GBN = 'DEPARTMENT'
+				LEFT JOIN TTT_COM_CD ur
+					ON ur.CODE = a.USER_RANKCODE
+					AND ur.CODE_GBN = 'USERRANK'
+					AND a.USER_LEVEL <> '0'
+        ]]>
+        <where>
+        <choose>
+        	<when test="value == 'all'">1=1</when>
+    	    <otherwise>a.USER_RANKCODE = '${value}' </otherwise> 
+        </choose>
+        </where>
+		AND DEL_YN = 'N'
+		ORDER BY USER_NAME	
+	</select>
+</mapper>
